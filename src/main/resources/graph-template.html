@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #cy {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 800;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.19.0/cytoscape.umd.js"></script>
+    <!-- For the network layout -->
+    <script src="https://unpkg.com/layout-base@1.0.2/layout-base.js"></script>
+    <script src="https://unpkg.com/avsdf-base/avsdf-base.js"></script>
+    <script src="https://unpkg.com/cose-base@1.0.3/cose-base.js"></script>
+    <script src="https://unpkg.com/cytoscape-cise@1.0.0/cytoscape-cise.js"></script>
+    <!-- For the tooltips -->
+    <script src="https://unpkg.com/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6.3.1/dist/tippy-bundle.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-popper@2.0.0/cytoscape-popper.min.js"></script>
+
+    <script type="text/javascript">
+        let elements = {{graphJson}}
+
+        elements.nodes = elements.nodes.map(node => ({data: node}))
+        elements.edges = elements.edges.map(edge => {
+            edge.normalizedWeight = Math.log10(edge.weight);
+
+            return ({data: edge})
+        })
+
+        let weightMin = 1
+        let weightMax = 4
+        let edgeColorProperty = `mapData(normalizedWeight, ${weightMin}, ${weightMax}, #F0F0F0, #646464)`
+
+        $(function () {
+            let cy = cytoscape({
+                container: document.getElementById('cy'),
+                style: [
+                    {
+                        selector: 'node',
+                        css: {
+                            'label': 'data(label)',
+                            'text-valign': 'center',
+                            'color': '#000000',
+                            'font-size': '12px',
+                            'text-wrap': 'wrap',
+                            'text-max-width': '1px',
+                            width: 15,
+                            height: 15,
+                            'compound-sizing-wrt-labels': 'include',
+                            'min-zoomed-font-size': 8,
+                            'background-color': node => node.data('root') === true ? 'red' : '#61bffc',
+                        }
+
+                    },
+                    {
+                        selector: 'edge',
+                        style: {
+                            'width': `mapData(normalizedWeight, ${weightMin}, ${weightMax}, 1, 4)`,
+                            'line-color': edgeColorProperty,
+                            'target-arrow-color': edgeColorProperty,
+                            'min-zoomed-font-size': 8,
+                            'target-arrow-shape': 'triangle',
+                            'curve-style': 'bezier',
+                            'font-size': '8px'
+                        }
+                    }
+                ],
+                elements: elements,
+                layout: { // configuration is here: https://github.com/iVis-at-Bilkent/cytoscape.js-cise
+                    name: 'cise',
+                    nodeRepulsion: 15000,
+                    padding: 10,
+                    fit: true
+                }
+            });
+
+            // A dummy element must be passed as tippy only accepts dom element(s) as the target
+            // https://atomiks.github.io/tippyjs/v6/constructor/#target-types
+            let dummyDomEle = document.createElement('div');
+
+            // from: https://stackoverflow.com/questions/54547927/show-and-hide-node-info-on-mouseover-in-cytoscape/54556015
+            function makePopper(ele, property) {
+                let ref = ele.popperRef(); // used only for positioning
+
+                let data = ele.data()[property]
+
+                if (data) {
+                    ele.tippy = tippy(dummyDomEle, { // tippy options:
+                        getReferenceClientRect: ref.getBoundingClientRect, // https://atomiks.github.io/tippyjs/v6/all-props/#getreferenceclientrect
+                        content: () => {
+                            let content = document.createElement('div');
+                            content.innerHTML = data;
+                            return content;
+                        },
+                        trigger: 'manual' // probably want manual mode
+                    });
+                }
+            }
+
+            cy.ready(function () {
+                cy.nodes().forEach(function (ele) {
+                    makePopper(ele, 'info');
+                });
+
+                cy.edges().forEach(function (ele) {
+                    makePopper(ele, 'weight');
+                });
+            });
+
+            cy.elements().unbind('mouseover');
+            cy.elements().bind('mouseover', (event) => event.target.tippy.show());
+
+            cy.elements().unbind('mouseout');
+            cy.elements().bind('mouseout', (event) => event.target.tippy.hide());
+        });
+    </script>
+</head>
+
+<body>
+<div id="cy"></div>
+</body>
+
+</html>
