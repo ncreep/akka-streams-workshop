@@ -45,6 +45,9 @@ import scala.concurrent.{ExecutionContext, Future}
   * the instructions you'll have to implement the `???` stubs. Once you implemented a definition
   * you can try to execute the tests defined in the test suite for this trait ([[WikiRabbitHoleExplorerTest]]).
   *
+  * When running, we will sometimes need to load a large file into memory. Make sure to allocate
+  * enough memory in your JVM parameters, e.g., `-Xmx4g`.
+  *
   * If you're stuck with any of the exercises you can take a look at the solutions for them on
   * the `solutions` branch. Search for filenames with the word "solution" in them.
   *
