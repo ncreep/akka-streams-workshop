@@ -295,6 +295,7 @@ trait WikiRabbitHoleExplorer {
     *
     * As we go deeper, the chains become longer.
     * Create a [[Flow]] that only produces the chains whose length is < 8.
+    * The stream should complete once we reach chains of size == 8.
     *
     * Don't forget to run the tests when implementing this flow.
     *
@@ -303,7 +304,9 @@ trait WikiRabbitHoleExplorer {
     */
   def allChainsUnder8: Flow[LinkChain, LinkChain, NotUsed] = ???
 
-  /** Now produce chains of exactly size == 7. */
+  /** Now produce chains of exactly size == 7.
+    * The stream should complete once we reach chains of size == 8.
+    */
   def allChainsOfSize7: Flow[LinkChain, LinkChain, NotUsed] = ???
 
   /** Find the first 3 chains whose latest entry contains the given [[target]].

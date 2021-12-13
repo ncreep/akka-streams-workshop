@@ -154,15 +154,15 @@ class WikiRabbitHoleExplorerTest extends AsyncWordSpec with Matchers {
 
     "find all chains below 8" in {
       testExplore(explorer.allChainsUnder8)
-        .request(29)
+        .request(34)
         .expectNext(
           chain1,
           chain21, chain22,
-          chain31, chain32,
-          chain41, chain42, chain43, chain44,
-          chain51, chain52, chain53, chain54,
-          chain61, chain62, chain63, chain64, chain65, chain66, chain67, chain68,
-          chain71, chain72, chain73, chain74, chain75, chain76, chain77, chain78)
+          chain31, chain32, chainLoop31,
+          chain41, chain42, chain43, chain44, chainLoop41,
+          chain51, chain52, chain53, chain54, chainLoop51,
+          chain61, chain62, chain63, chain64, chain65, chain66, chain67, chain68, chainLoop61,
+          chain71, chain72, chain73, chain74, chain75, chain76, chain77, chain78, chainLoop71)
         .request(1).expectComplete()
 
       succeed
@@ -170,8 +170,8 @@ class WikiRabbitHoleExplorerTest extends AsyncWordSpec with Matchers {
 
     "find all chains of size 7" in {
       testExplore(explorer.allChainsOfSize7)
-        .request(8)
-        .expectNext(chain71, chain72, chain73, chain74, chain75, chain76, chain77, chain78)
+        .request(9)
+        .expectNext(chain71, chain72, chain73, chain74, chain75, chain76, chain77, chain78, chainLoop71)
         .request(1).expectComplete()
 
       succeed
@@ -189,7 +189,7 @@ class WikiRabbitHoleExplorerTest extends AsyncWordSpec with Matchers {
     "find 5 loops" in {
       testExplore(explorer.findLoops)
         .request(5)
-        .expectNext(chainLoop1, chainLoop2, chainLoop3, chainLoop4, chainLoop5)
+        .expectNext(chainLoop31, chainLoop41, chainLoop51, chainLoop61, chainLoop71)
         .request(1).expectComplete()
 
       succeed
@@ -198,7 +198,7 @@ class WikiRabbitHoleExplorerTest extends AsyncWordSpec with Matchers {
     "find the max total clicks in chains of size 7" in {
       testExplore(explorer.findMaxClickTotal)
         .request(1)
-        .expectNext(chain78)
+        .expectNext(chainLoop71)
         .request(1).expectComplete()
 
       succeed

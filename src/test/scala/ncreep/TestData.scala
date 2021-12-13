@@ -96,24 +96,23 @@ object TestData {
   val chain816 = lc("a", 22 -> "b2", 32 -> "c2", 44 -> "d4", 54 -> "e4", 68 -> "f8", 78 -> "g8", 816 -> "h16")
 
   // some loops
-  val chainLoop1 = lc("a", 22 -> "b2", 9999 -> "a")
-  val chainLoop2 = lc("a", 22 -> "b2", 32 -> "c2", 9999 -> "a")
-  val chainLoop3 = lc("a", 22 -> "b2", 32 -> "c2", 44 -> "d4", 9999 -> "a")
-  val chainLoop4 = lc("a", 22 -> "b2", 32 -> "c2", 44 -> "d4", 54 -> "e4", 9999 -> "a")
-  val chainLoop5 = lc("a", 22 -> "b2", 32 -> "c2", 44 -> "d4", 54 -> "e4", 6 -> "f8", 9999 -> "a")
-  val chainLoop6 = lc("a", 22 -> "b2", 32 -> "c2", 44 -> "d4", 54 -> "e4", 6 -> "f8", 71 -> "g8", 9999 -> "a")
+  val chainLoop31 = lc("a", 22 -> "b2", 9999 -> "a")
+  val chainLoop41 = lc("a", 22 -> "b2", 32 -> "c2", 9999 -> "a")
+  val chainLoop51 = lc("a", 22 -> "b2", 32 -> "c2", 44 -> "d4", 9999 -> "a")
+  val chainLoop61 = lc("a", 22 -> "b2", 32 -> "c2", 44 -> "d4", 54 -> "e4", 9999 -> "a")
+  val chainLoop71 = lc("a", 22 -> "b2", 32 -> "c2", 44 -> "d4", 54 -> "e4", 6 -> "f8", 9999 -> "a")
+  val chainLoop81 = lc("a", 22 -> "b2", 32 -> "c2", 44 -> "d4", 54 -> "e4", 6 -> "f8", 71 -> "g8", 9999 -> "a")
 
   val linkChains = List(
     chain1,
     chain21, chain22,
-    chain31, chain32,
-    chain41, chain42, chain43, chain44,
-    chain51, chain52, chain53, chain54,
-    chain61, chain62, chain63, chain64, chain65, chain66, chain67, chain68,
-    chain71, chain72, chain73, chain74, chain75, chain76, chain77, chain78,
+    chain31, chain32, chainLoop31,
+    chain41, chain42, chain43, chain44, chainLoop41,
+    chain51, chain52, chain53, chain54, chainLoop51,
+    chain61, chain62, chain63, chain64, chain65, chain66, chain67, chain68, chainLoop61,
+    chain71, chain72, chain73, chain74, chain75, chain76, chain77, chain78, chainLoop71,
     chain81, chain82, chain83, chain84, chain85, chain86, chain87, chain88, chain89, chain810,
-    chain811, chain812, chain813, chain814, chain815, chain816,
-    chainLoop1, chainLoop2, chainLoop3, chainLoop4, chainLoop5, chainLoop6)
+    chain811, chain812, chain813, chain814, chain815, chain816, chainLoop81)
 
   val linksMap = LinksMap.empty
     .addLink(Link(source = "a", target = "b", times = 10))
