@@ -413,7 +413,7 @@ trait WikiRabbitHoleExplorer {
     * @param visited             The [[WikiTitle]]s that were already visited.
     * @param previouslyUnvisited The newly generated [[LinkChain]]s that need to be visited in
     *                            a future step.
-    * @param newVisited          [[WikiTitle]]s that were visited in the current step (and should
+    * @param titlesToBeVisited   [[WikiTitle]]s that were visited in the current step (and should
     *                            not be visited again)
     */
   def buildNewState(toVisitLater: List[LinkChain], visited: Set[WikiTitle],
@@ -486,7 +486,7 @@ trait WikiRabbitHoleExplorer {
     * calls.
     *
     * Create a [[Flow]] that adds a summary to each incoming [[LinkChainPart]] using
-    * [[WikipediaSummaryFetcher.fetchSummary]].
+    * [[WikipediaSummaryFetcher.fetchSummary]] on the provided [[summaryFetcher]].
     *
     * Hint: make use of [[LinkChainPart.addSummary]].
     */

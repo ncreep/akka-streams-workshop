@@ -49,6 +49,8 @@ abstract class AppWithDeps {
   def main(args: Array[String]): Unit = {
     try {
       Await.result(run(), Duration.Inf)
-    } finally terminate()
+    } finally {
+      val _ = terminate()
+    }
   }
 }
