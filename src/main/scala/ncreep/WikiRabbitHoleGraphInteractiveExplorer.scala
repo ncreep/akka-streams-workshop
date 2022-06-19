@@ -94,7 +94,7 @@ trait WikiRabbitHoleGraphInteractiveExplorer extends WikiRabbitHoleExplorer {
     * When the user hits the letter 'q', this stream should complete.
     * Create a [[Flow]] that will cut off the stream when it encounters the [[Quitting]] response.
     * Note that the [[Quitting]] response should be the last element of the input, but it should be passed
-    * on to the next stage (so that we can render ito the user when it arrives).
+    * on to the next stage (so that we can render it to the user when it arrives).
     *
     * Hint: the [[Flow.takeWhile]] function can be both exclusive and inclusive.
     */
@@ -115,15 +115,15 @@ trait WikiRabbitHoleGraphInteractiveExplorer extends WikiRabbitHoleExplorer {
     *
     * Use the previous parts to create a single [[Flow]] that:
     * - Cleans up the user input
-    * - Sets the quitting condition
     * - Parses the commands
     * - Executes them and produces a response
+    * - Sets the quitting condition
     * - Renders the response into a [[ByteString]]
     * - Prepends the [[initMessage]] to the [[Flow]] so that it appears as the first output
     * of this [[Flow]].
     *
     * Food for thought: notice how decoupled this interaction protocol from any specific input
-    * methods. This means that it's easier to test, and is more reusable for in different contexts.
+    * methods. This means that it's easier to test, and is more reusable in different contexts.
     */
   def interactionProtocol(linksMap: LinksMap): Flow[ByteString, ByteString, NotUsed] = ???
 
